@@ -148,7 +148,7 @@ const createOrder = async (req, res, next) => {
             req.session.order_status = "Order Placed"
             })
             .catch((err) => {
-                // console.log(err.message);
+                console.log(err.message);
             req.session.order_status = "No recyclers found"
             })
         }

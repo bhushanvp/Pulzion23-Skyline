@@ -6,7 +6,7 @@ const location_not_fetched = document.getElementById("location-not-fetched")
 
 const north_cords = document.getElementById("north-coordinate")
 const east_cords = document.getElementById("east-coordinate")
-const location = document.getElementById("map-location")
+// const location = document.getElementById("map-location")
 
 
 get_location.addEventListener("click", () => {
@@ -224,7 +224,7 @@ const signup_entity = document.getElementById("signup-entity")
 const err_signup_entity = document.getElementById("no-signup-entity")
 
 signup_entity.addEventListener("input", () => {
-    // console.log(signup_entity.value);
+    console.log(signup_entity.value);
     if (signup_entity.value === "") {
         err_signup_entity.textContent = "Please select an entity type"
     }
