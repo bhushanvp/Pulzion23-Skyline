@@ -1,0 +1,210 @@
+## Project Structure
+* /Project
+  - /db
+    + conn.js
+  - /middlewares
+    + producer_middlewares
+    + recycler_middlewares
+  - /routes
+    + app_routes
+    + producer_routes
+    + recycler_routes
+  - /static
+    - /css
+      + dashboard.css
+      + index.css
+      + login.css
+    - /images
+      + create_order_icon.png
+    - /js
+      + dashboard.js
+      + login.js
+      + register.js
+  - /templates
+    - /partials
+      + header.hbs
+      + footer.hbs
+    - /views
+      + contact.hbs
+      + index.hbs
+      + login.hbs
+      + producer_dashboard.hbs
+      + recycler_dashboard.hbs
+      + register.hbs
+  + index.js
+  + package-lock.json
+  + package.json
+  + README.md
+
+## Routes
+1. **App Routes**
+    -  [[GET] /](#/)
+    -  [[GET] /login](#/login)
+    -  [[GET] /register](#/register)
+    -  [[GET] /contact](#/contact)
+
+2. **Producer Routes**
+    -  [[POST] /producer/login](#/producer/login)
+    -  [[POST] /producer/register](#/producer/register)
+    -  [[POST] /producer/dashboard](#/producer/dashboard)
+    -  [[POST] /producer/create-order](#/producer/create-order)
+    -  [[GET]  /producer/logout](#/producer/logout)
+
+3. **Recycler Routes**
+    -  [[POST] /recycler/login](#/recycler/login)
+    -  [[POST] /recycler/dashboard](#/recycler/dashboard)
+    -  [[GET]  /recycler/accept](#/recycler/accept)
+    -  [[GET]  /recycler/logout](#/recycler/logout)
+    
+## Routes Explained
+- <a name="/">**/**  [GET]</a>
+   * This route uses a GET request to display the static 'Home Page'
+
+- <a name="/login">**/login**  [GET]</a>
+   * The '/login' route uses a GET request to display the static 'Login Page'
+
+- <a name="/register">**/register**  [GET]</a>
+   * The '/register' route uses a GET request to display the static 'Registration Page'
+
+- <a name="/contact">**/contact**  [GET]</a>
+   * The '/contact' route uses a GET request to display the static 'Contact Us Page'
+
+- <a name="/producer/register">**/producer/register**  [POST]</a>
+   * The '/producer/register' route handles the POST request from the 'Register Page'
+   * It has a middleware [isAuth](#producer_isAuth) which checks if the user is already logged in.
+     + If the user is already logged in it redirects the Producer to their dashboard.
+     + Else it proceeds further.
+   * It then updates the databases using the [register](#producer_register) middleware.
+   * Upon successful registration, it redirects the Producer to the dashboard.
+   * Else it refreshes the 'Registration Page'.
+
+- <a name="/producer/login">**/producer/login**  [POST]</a>
+   * The '/producer/login' route handles the POST request from the 'Login Page'
+   * It has a middleware [isAuth](#producer_isAuth) which checks if the user is already logged in.
+     + If the user is already logged in it redirects the Producer to their dashboard.
+     + Else it proceeds further
+   * Then it checks the entry in the database using the [login](#producer_login) middleware.
+   * Upon successful login, it redirects the user to the dashboard of the Producer.
+   * Else it refreshes the 'Login Page'.
+
+- <a name="/producer/dashboard">**/producer/dashboard**  [GET]</a>
+   * The '/producer/dashboard' route displays the dashboard of the Producer.
+   * It has a middleware [isAuth](#producer_isAuth) which checks if the user is logged in or not.
+     + If the user is already logged it proceeds further.
+     + Else it redirects the Producer to the 'Login Page'.
+   * It displays all the accepted and pending requests.
+   
+- <a name="/producer/create-order">**/producer/create-order**  [POST]</a>
+   * This request is posted after the Producer clicks on 'Create Order' button present on the dashboard.
+   * Displays an interface to create an order.
+   * It has a [createOrder](#createOrder) middleware which updates the databases.
+   * Then it refreshes the dashboard page also displaying the order and order status.
+   
+- <a name="/producer/logout">**/producer/logout**  [GET]</a>
+   * Delete the session.
+   * Clear the cookies.
+   * Redirect to the 'Login Page'.
+
+- <a name="/recycler/register">**/recycler/register**  [POST]</a>
+   * The '/recycler/register' route handles the POST request from the 'Register Page'
+   * It has a middleware [isAuth](recycler_isAuth) which checks if the user is already logged in.
+     + If the user is already logged in it redirects the Recycler to their dashboard.
+     + Else it proceeds further.
+   * It then updates the databases using the [register](#recycler_register) middleware.
+   * Upon successful registration, it redirects the Recycler to the dashboard.
+   * Else it refreshes the 'Registration Page'.
+
+- <a name="/recycler/login">**/recycler/login**  [POST]</a>
+   * The '/recycler/login' route handles the POST request from the 'Login Page'
+   * It has a middleware [isAuth](recycler_isAuth) which checks if the user is already logged in.
+     + If the user is already logged in it redirects the Recycler to their dashboard.
+     + Else it proceeds further
+   * Then it checks the entry in the database using the [login](#recycler_login) middleware.
+   * Upon successful login, it redirects the user to the dashboard of the Recycler.
+   * Else it refreshes the 'Login Page'.
+
+- <a name="/recycler/dashboard">**/recycler/dashboard**  [GET]</a>
+   * The '/recycler/dashboard' route displays the dashboard of the Recycler.
+   * It has a middleware [isAuth](recycler_isAuth) which checks if the user is logged in or not.
+     + If the user is already logged it proceeds further.
+     + Else it redirects the Recycler to the 'Login Page'.
+   * It displays all the accepted and pending requests.
+   
+- <a name="/recycler/accept/:id">**/recycler/accept/:id**  [GET]</a>
+   * This request facilitates the Recycler to accept the order corresponding to order_id=id.
+   * It has a middlware [acceptOrder](#acceptOrder) which updates the databases.
+   * Then it refreshes the dashboard page.
+   
+- <a name="/recycler/logout">**/recycler/logout**  [GET]</a>
+   * Delete the session.
+   * Clear the cookies.
+   * Redirect to the 'Login Page'.
+   
+## Middlewares
+1. **Producer Middlewares**
+   - **register** <a name="producer_register"></a>
+      * It takes all the information from the input fields of the 'Registration Page'.
+      * Inserts all the information about Producer into the db1.Producers table.
+      * Then it inserts the information about the location into the db1.addresses table
+      * Upon successful insertions it stores the following session variables :-
+        - req.session.username = Producer's Name
+        - req.session.id = Company ID
+        - req.session.north = North Coordinates
+        - req.session.east = East Coordinates
+        - req.session.entity = "producer"
+        - req.session.isAuth = true
+      * And proceeds further
+   
+   - **login** <a name="producer_login"></a>
+      * It takes all the information from the input fields of the 'Login Page'.
+      * Checks all the information about Producer into the db1.Producers table.
+      * Upon successful checking the databases it stores the following session variables :-
+        - req.session.username = Producer's Name
+        - req.session.id = Company ID
+        - req.session.north = North Coordinates
+        - req.session.east = East Coordinates
+        - req.session.entity = "producer"
+        - req.session.isAuth = true
+      * And proceeds further
+      
+   - **isAuth**<a name="producer_isAuth"></a>
+      * It checks the req.session.isAuth variable to check the user is already logged in.
+      
+   - **createOrder** <a name="createOrder"></a>
+      * **IMP** First it checks if there are any available recyclers who recycle that particular waste.
+      * Then it checks which recycler is the nearest (within some radius).
+      * If no recyclers are present which satisfy the above conditions then it doesn't create any order.
+      * Else it creates an order with order_status = number of available recyclers whoc satisfy the conditions.
+      * Updates the order status (created/not) in the Producer's dashboard.
+      
+2. **Recycler Middlewares**
+   - **register** <a name="recycler_register"></a>
+      * It takes all the information from the input fields of the 'Registration Page'.
+      * Inserts all the information about Recycler into the db1.Recyclers table.
+      * Then it inserts the information about the location into the db1.addresses table
+      * Upon successful insertions it stores the following session variables :-
+        - req.session.username = Recycler's Name
+        - req.session.id = Company ID
+        - req.session.waste_type = Waste Type
+        - req.session.entity = "recycler"
+        - req.session.isAuth = true
+      * And proceeds further
+
+   - **login** <a name="recycler_login"></a>
+      * It takes all the information from the input fields of the 'Login Page'.
+      * Checks all the information about Producer into the db1.Producers table.
+      * Upon successful checking the databases it stores the following session variables :-
+        + req.session.username = Recycler's Name
+        + req.session.id = Company ID
+        + req.session.waste_type = Waste Type
+        + req.session.entity = "recycler"
+        + req.session.isAuth = true
+      * And proceeds further
+
+   - **isAuth**<a name="recycler_isAuth"></a>
+      * It checks the req.session.isAuth variable to check the user is already logged in.
+
+   - **acceptOrder** <a name="acceptOrder"></a>
+      * It takes all the order_id from the url itself using req.params.
+      * It updates the order_status in the orders table as 111.
+      * It also updates the recycler_id of the same entry.

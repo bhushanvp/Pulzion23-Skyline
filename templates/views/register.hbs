@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/css/login.css">
+    <script src="/js/register.js" async></script>
+    <title>Register / Login</title>
+</head>
+
+<body>
+    {{>header}}
+    <h1>Registration</h1>
+    <form id="signup-form" method="post" onsubmit="return validateRegistration()">
+        <p>Please fill the following form to register</p>
+
+        <label for="signup-entity">What type of entity are you ?<span class="required-field">*</span></label>
+        <select name="signup-entity" id="signup-entity" required>
+            <option value="">Please select an option</option>
+            <option value="producer">Producer</option>
+            <option value="recycler">Recycler</option>
+        </select>
+        &ensp;<span class="err" id="no-signup-entity"></span>
+
+        <br><br>
+
+        <label for="company-name">Whats your company name? <span class="required-field">*</span></label>
+        <input type="text" name="company-name" id="company-name" required placeholder="Enter Company Name">&ensp;<span
+            class="err" id="no-company-name"></span>
+
+        <br><br>
+
+        <label for="company-email">Whats your email? <span class="required-field">*</span></label>
+        <input type="email" name="company-email" id="company-email" required
+            placeholder="Enter Email Address">&ensp;<span class="err" id="no-company-email"></span>
+
+        <br><br>
+
+        <label for="password">Whats your password? <span class="required-field">*</span></label>
+        <input type="password" name="password" id="password" required placeholder="Enter your password">&ensp;<span
+            class="err" id="password-err"></span>
+
+        <br><br>
+
+        <label for="confirm-password">Confirm your password? <span class="required-field">*</span></label>
+        <input type="password" name="confirm-password" id="confirm-password" required
+            placeholder="Enter your password again">&ensp;<span class="err" id="confirm-password-err"></span>
+
+        <br><br>
+
+        <label for="company-contact-number">Whats your contact number? <span class="required-field">*</span></label>
+        <input type="number" name="company-contact-number" id="company-contact-number" required
+            placeholder="Enter Contact number">&ensp;<span class="err" id="no-contact-number"></span>
+
+        <br><br>
+
+        <label for="waste-type">What kind of waste do you deal? <span class="required-field">*</span></label>
+        <input type="checkbox" name="iron" class="waste-type" value="iron">
+        <label for="">Iron</label>
+        <input type="checkbox" name="plastic" class="waste-type" value="plastic">
+        <label for="">Plastic</label>
+        <input type="checkbox" name="organic" class="waste-type" value="organic">
+        <label for="">Organic</label>&ensp;<span class="err" id="no-waste"></span>
+
+        <br><br>
+
+        <div class="subform-title">Location Details</div>
+        <label for="building-number">Whats your building number? <span class="optional-field">(Optional)</span></label>
+        <input type="text" name="building-number" id="building-no" placeholder="Enter building number">
+
+        <br><br>
+
+        <label for="building-name">Whats your building Name? <span class="required-field">*</span></label>
+        <input type="text" name="building-name" id="building-name" placeholder="Enter building Name"
+            required>&ensp;<span class="err" id="no-building-name"></span>
+
+        <br><br>
+
+        <label for="street">Whats your Street / Landmark Name? <span class="required-field">*</span></label>
+        <input type="text" name="street" id="street" placeholder="Enter street / landmark name" required>&ensp;<span
+            class="err" id="no-street"></span>
+
+        <br><br>
+
+        <label for="city">Whats your City Name? <span class="required-field">*</span></label>
+        <input type="text" name="city" id="city" placeholder="Enter city name" required>&ensp;<span class="err"
+            id="no-city"></span>
+
+        <br><br>
+
+        <label for="district">Whats your District Name? <span class="required-field">*</span></label>
+        <input type="text" name="district" id="district" placeholder="Enter district name" required>&ensp;<span
+            class="err" id="no-district"></span>
+
+        <br><br>
+
+        <label for="pincode">Whats your Pincode? <span class="required-field">*</span></label>
+        <input type="number" name="pincode" id="pincode" placeholder="Enter Pincode" required>&ensp;<span class="err"
+            id="no-pincode"></span>
+
+        <br><br>
+
+        <label for="location">Give one time location for better service <span class="required-field">*</span></label>
+        <input type="button" name="location" value="Get accurate location" id="get-location">&ensp; <br> <span class="err"
+            id="location-not-fetched"></span> <br>
+        <input type="text" class="coordinates" id="north-coordinate" name="north-coordinate">
+        <input type="text" class="coordinates" id="east-coordinate" name="east-coordinate">
+        <input type="text" class="coordinates" id="map-location" name="map-location">
+
+        <button type="submit">Register</button>
+    </form>
+
+    <br>
+
+    <div class="switch-form-container">
+        <label for="switch-form-button"><span id="switch-form-button-label">Already registered?</span></label>
+        <a href="/login"><input type="button" value="Login" id="switch-form-button"></a>
+    </div>
+</body>
+
+</html>
