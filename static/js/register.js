@@ -16,9 +16,9 @@ get_location.addEventListener("click", () => {
         location_not_fetched.textContent = ""
         user_location = position
 
-        north_cords.value = position.coords.longitude
+        north_cords.value = position.coords.latitude
         // console.log(north_cords);
-        east_cords.value = position.coords.latitude
+        east_cords.value = position.coords.longitude
         // console.log(east_cords);
         
         // const { Map } = await google.maps.importLibrary("maps");
@@ -33,6 +33,9 @@ get_location.addEventListener("click", () => {
         // console.log(err.message);
         north_cords.textContent = ""
         east_cords.textContent = ""
+    },
+    {
+        enableHighAccuracy: true
     })
 })
 
