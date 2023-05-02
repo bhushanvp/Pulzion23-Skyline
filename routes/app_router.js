@@ -51,4 +51,12 @@ app_router.get("/about", (req, res) => {
     }
 })
 
+app_router.post("/login", (req, res) => {
+    res.render("login")
+})
+
+app_router.post("/register", (req, res) => {
+    res.render("register")
+})
+
 module.exports = app_router
