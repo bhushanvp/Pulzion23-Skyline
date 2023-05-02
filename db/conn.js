@@ -3,8 +3,7 @@ const mysql = require("mysql2")
 module.exports = mysql.createConnection({
     host: 'localhost',
     user: 'root',
-    database: 'db1',
-    password: '#Ad28102001'
+    database: 'db1'
 })
 .on("connect", () => {
     console.log("DB connected");

@@ -1,11 +1,12 @@
+<!DOCTYPE html>
 <html lang="en">
 
 <head>
-    <meta charset="UTF-8" />
-    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <script src="/js/recycler_dashboard.js" async></script>
-    <link rel="stylesheet" href="/css/dashboard.css" />
+    <link rel="stylesheet" href="/css/dashboard.css">
     <title>Smart Waste Management</title>
 </head>
 
@@ -13,9 +14,9 @@
     {{!-- {{>header}} --}}
     <div class="greet">Hello {{name}}</div>
 
-    <hr />
+    <hr>
 
-    <br />
+    <br>
 
     <div class="accepted-requests-label">Accepted Requests</div>
     <table class="accepted-requests">
@@ -42,16 +43,19 @@
                     <input type="button" class="action" id="execute" value="Execute">
                 </a>
             </td>
-            <td><a href="https://www.google.com/maps/place/{{this.north_coordinate}}N+{{this.east_coordinate}}E" target="_blank"><div class="map-icon"><img class="map-icon" src="/images/map_icon.png" alt="Map Icon"></div></a></td>
+            <td><a href="https://www.google.com/maps/place/{{this.north_coordinate}}N+{{this.east_coordinate}}E"
+                    target="_blank">
+                    <div class="map-icon"><img class="map-icon" src="/images/map_icon.png" alt="Map Icon"></div>
+                </a></td>
         </tr>
         {{/each}}
     </table>
 
-    <br />
+    <br>
 
-    <hr />
+    <hr>
 
-    <br />
+    <br>
 
     <div class="available-requests-label">Available Requests</div>
     <table class="available-requests">
@@ -70,14 +74,14 @@
             <td>{{this.waste_type}}</td>
             <td>{{this.waste_quantity}}</td>
             <td>{{this.pickup_date}}</td>
-            <td id={{this.order_id}}>{{this.north_coordinate}}
-                N,
-                {{this.east_coordinate}}
-                E</td>
-            <td><a href="https://www.google.com/maps/place/{{this.north_coordinate}}N+{{this.east_coordinate}}E" target="_blank"><div class="map-icon"><img class="map-icon" src="/images/map_icon.png" alt="Map Icon"></div></a></td>
+            <td id={{this.order_id}}>{{this.north_coordinate}} N, {{this.east_coordinate}} E</td>
+            <td><a href="https://www.google.com/maps/place/{{this.north_coordinate}}N+{{this.east_coordinate}}E"
+                    target="_blank">
+                    <div class="map-icon"><img class="map-icon" src="/images/map_icon.png" alt="Map Icon"></div>
+                </a></td>
             <td>
                 <a href="/recycler/order/accept/{{this.order_id}}">
-                    <input type="button" class="action" id="accept" value="Accept" />
+                    <input type="button" class="action" id="accept" value="Accept">
                 </a>
             </td>
         </tr>
@@ -85,11 +89,11 @@
 
     </table>
 
-    <br />
+    <br>
 
-    <hr />
+    <hr>
 
-    <a href="/recycler/logout"><input type="button" value="logout" class="logout-btn" id="logout" /></a>
+    <a href="/recycler/logout"><input type="button" value="logout" class="logout-btn" id="logout"></a>
     {{!-- {{>footer}} --}}
 </body>
 
