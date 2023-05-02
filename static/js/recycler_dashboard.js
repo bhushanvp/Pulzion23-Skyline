@@ -22,3 +22,28 @@ if (pend_req[0].children[0].childElementCount<2) {
 }
 
 // console.log(acc_req, pend_req);
+const execute_form = document.getElementById("execute-order-form")
+const execute_btn = document.getElementById("execute")
+const close_execute_form_btn = document.getElementById("close-execute-form-button")
+
+execute_btn.addEventListener("click", (event) => {
+  // console.log("Open");
+  event.preventDefault(); // prevent form submit
+  execute_form.style.display = "block"
+})
+
+close_execute_form_btn.addEventListener("click", () => {
+  // console.log("close");
+  execute_form.style.display = "none"
+})
+
+const otp = document.getElementById("otp")
+
+const validateOtp = () => {
+  if (otp.value === null) {
+    return false
+  }
+  else {
+    return true
+  }
+}

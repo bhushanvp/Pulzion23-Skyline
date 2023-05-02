@@ -265,7 +265,7 @@ footer {
     background-color: #c40000;
 }
 
-#close-button {
+#close-button, #close-execute-form-button {
     position: absolute;
     top: 5px;
     right: 5px;
@@ -278,7 +278,7 @@ footer {
     align-items: center;
 }
 
-#close-button:hover {
+#close-button, #close-execute-form-button:hover {
     cursor: pointer;
     background-color: #bbb;
 }
@@ -339,4 +339,55 @@ footer {
 footer p {
     margin: 0;
     padding: 0;
+}
+
+#execute-order-form {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+
+    /* position: absolute; */
+    z-index: 10;
+    background-color: #fff;
+    padding: 20px;
+    border: 1px solid black;
+    display: none;
+    width: 300px;
+}
+
+#execute-order-form label {
+    display: block;
+    margin-bottom: 10px;
+    font-weight: bold;
+}
+
+#execute-order-form input[type="text"],
+#execute-order-form input[type="datetime-local"] {
+    width: 90%;
+    padding: 10px;
+    margin-bottom: 20px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+}
+
+#execute-order-form button[type="submit"] {
+    background-color: #4CAF50;
+    border: none;
+    color: #fff;
+    padding: 10px 20px;
+    font-size: 16px;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+#execute-order-form button[type="submit"]:hover {
+    background-color: #3e8e41;
+}
+
+#execute-order-form span {
+    color: red;
+    font-size: 14px;
+    margin-bottom: 10px;
+    display: block;
 }

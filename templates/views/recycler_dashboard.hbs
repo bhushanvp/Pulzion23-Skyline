@@ -44,9 +44,7 @@
                 </a>
             </td>
             <td>
-                <a href="/recycler/order/execute/{{this.order_id}}">
-                    <input type="button" class="action" id="execute" value="Execute">
-                </a>
+                <input type="button" class="action" id="execute" value="Execute">
             </td>
         </tr>
         {{/each}}
@@ -93,6 +91,19 @@
     <br>
 
     <hr>
+
+    <div id="execute-order-form">
+        <form onsubmit="return validateOtp()" method="post">
+            <button id="close-execute-form-button">X</button>
+            <label for="otp">OTP</label>
+            <input type="text" name="otp" id="otp" placeholder="Enter the OTP" required>
+            <span id="no-otp"></span>
+
+            <br>
+
+            <button type="submit">Validate Order</button>
+        </form>
+    </div>
 
     <a href="/recycler/logout"><input type="button" value="logout" class="logout-btn" id="logout"></a>
     {{!-- {{>footer}} --}}

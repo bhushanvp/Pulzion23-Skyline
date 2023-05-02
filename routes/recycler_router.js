@@ -53,7 +53,8 @@ recycler_router.get("/recycler/order/accept/:id", middleware.acceptOrder, async 
     res.redirect("/recycler/dashboard")
 })
 
-recycler_router.get('/recycler/order/execute/:id',middleware.executeOrder,async (req,res)=>{
+recycler_router.post('/recycler/order/execute/:id', middleware.isAuth, middleware.executeOrder,async (req,res)=>{
+    console.log(req.session.isAuth, "outside");
     res.redirect('/recycler/dashboard')
 })
 
