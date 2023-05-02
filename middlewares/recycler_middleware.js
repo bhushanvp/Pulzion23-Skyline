@@ -1,5 +1,6 @@
 const bcrypt = require("bcrypt")
 const db = require("../db/conn")
+const mailer = require('nodemailer')
 
 const register = async (req, res, next) => {
     const recycler_name = req.body['company-name']
@@ -143,3 +144,45 @@ const executeOrder = async (req,res,next)=>{
 }
 
 module.exports = { register, login, isAuth, acceptOrder, executeOrder }
+
+
+
+
+
+// let otp = 0;
+// router.post("/sendotp", (req, res) => {
+//   const {emailotp} = req.body
+//   smtpProtocol = mailer.createTransport({
+//     service: "Gmail",
+//     auth: {
+//       user: "adityapatildev2810@gmail.com",
+//       pass: "lfqsebfbrmkfixig",
+//     },
+//   });
+//   otp = between(1000, 9999);
+//   var mailoption = {
+//     from: "adityapatildev2810@gmail.com",
+//     to: emailotp,
+//     subject: "One Time Password",
+//     html: `Hello user. Your one time password is <b>${otp}</b>`,
+//   };
+//   smtpProtocol.sendMail(mailoption, function (err, response) {
+//     if (err) {
+//       console.log(err);
+//     }
+//     console.log("Message Sent" + response.message);
+
+//     smtpProtocol.close();
+//   });
+//   res.render("otp1");
+// })
+
+// router.post("/otpauth", (req, res) => {
+//   const {otp1} = req.body;
+//   if (otp1 == otp) {
+//     res.render("pwdchange");
+//   }
+//   else {
+//     res.end("error");
+//   }
+// })
