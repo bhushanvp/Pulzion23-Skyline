@@ -140,6 +140,12 @@ table th {
     text-align: center;
 }
 
+.map-icon{
+    margin: auto;
+    text-align: center;
+    width: 45px;
+}
+
 /* Accepted Requests Table */
 .accepted-requests-label,
 .available-requests-label,
