@@ -37,16 +37,17 @@
             <td>{{this.waste_quantity}}</td>
             <td>{{this.pickup_date}}</td>
             <td>{{this.recycler_id}}</td>
-            <td id={{this.order_id}}>{{this.north_coordinate}}N,{{this.east_coordinate}}E</td>
+            {{!-- <td id={{this.order_id}}>{{this.north_coordinate}}N,{{this.east_coordinate}}E</td> --}}
+            <td><a href="https://www.google.com/maps/place/{{this.north_coordinate}}N+{{this.east_coordinate}}E"
+                    target="_blank">
+                    <div class="map-icon"><img class="map-icon" src="/images/map_icon.png" alt="Map Icon"></div>
+                </a>
+            </td>
             <td>
                 <a href="/recycler/order/execute/{{this.order_id}}">
                     <input type="button" class="action" id="execute" value="Execute">
                 </a>
             </td>
-            <td><a href="https://www.google.com/maps/place/{{this.north_coordinate}}N+{{this.east_coordinate}}E"
-                    target="_blank">
-                    <div class="map-icon"><img class="map-icon" src="/images/map_icon.png" alt="Map Icon"></div>
-                </a></td>
         </tr>
         {{/each}}
     </table>
