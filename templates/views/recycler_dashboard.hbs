@@ -44,7 +44,9 @@
                 </a>
             </td>
             <td>
-                <input type="button" class="action" id="execute" value="Execute">
+                <a href="/recycler/order/execute/{{this.order_id}}">
+                    <input type="button" class="execute" id="execute" value="Execute">
+                </a>
             </td>
         </tr>
         {{/each}}
@@ -73,11 +75,14 @@
             <td>{{this.waste_type}}</td>
             <td>{{this.waste_quantity}}</td>
             <td>{{this.pickup_date}}</td>
-            <td id={{this.order_id}}>{{this.north_coordinate}} N, {{this.east_coordinate}} E</td>
-            <td><a href="https://www.google.com/maps/place/{{this.north_coordinate}}N+{{this.east_coordinate}}E"
+            <td>
+                <a href="https://www.google.com/maps/place/{{this.north_coordinate}}N+{{this.east_coordinate}}E"
                     target="_blank">
-                    <div class="map-icon"><img class="map-icon" src="/images/map_icon.png" alt="Map Icon"></div>
-                </a></td>
+                    <div class="map-icon">
+                        <img class="map-icon" src="/images/map_icon.png" alt="Map Icon">
+                    </div>
+                </a>
+            </td>
             <td>
                 <a href="/recycler/order/accept/{{this.order_id}}">
                     <input type="button" class="action" id="accept" value="Accept">
@@ -92,8 +97,80 @@
 
     <hr>
 
-    <div id="execute-order-form">
-        <form onsubmit="return validateOtp()" method="post">
+    <div class="pending-verification-requests-label">Pending Verification Requests</div>
+    <table class="pending-verification-requests">
+        <tr class="table-headings">
+            <th>Order I.D.</th>
+            <th>Waste Type</th>
+            <th>Waste Quantity</th>
+            <th>Execution Time</th>
+            <th>Location</th>
+            {{!-- <th>Accept</th> --}}
+        </tr>
+
+        {{#each pending_verification_requests}}
+        <tr class="pending-verification-request">
+            <td>{{this.order_id}}</td>
+            <td>{{this.waste_type}}</td>
+            <td>{{this.waste_quantity}}</td>
+            <td>{{this.pickup_date}}</td>
+            <td>
+                <a href="https://www.google.com/maps/place/{{this.north_coordinate}}N+{{this.east_coordinate}}E" target="_blank">
+                    <div class="map-icon">
+                        <img class="map-icon" src="/images/map_icon.png" alt="Map Icon">
+                    </div>
+                </a>
+            </td>
+            {{!-- <td>
+                <a href="/recycler/order/accept/{{this.order_id}}">
+                    <input type="button" class="action" id="accept" value="Accept">
+                </a>
+            </td> --}}
+        </tr>
+        {{/each}}
+
+    </table>
+
+    <br>
+
+    <hr>
+
+    <div class="executed-requests-label">Executed Requests</div>
+    <table class="executed-requests">
+        <tr class="table-headings">
+            <th>Order I.D.</th>
+            <th>Waste Type</th>
+            <th>Waste Quantity</th>
+            <th>Execution Time</th>
+            <th>Location</th>
+            {{!-- <th>Accept</th> --}}
+        </tr>
+
+        {{#each executed_requests}}
+        <tr class="executed-request">
+            <td>{{this.order_id}}</td>
+            <td>{{this.waste_type}}</td>
+            <td>{{this.waste_quantity}}</td>
+            <td>{{this.pickup_date}}</td>
+            <td>
+                <a href="https://www.google.com/maps/place/{{this.north_coordinate}}N+{{this.east_coordinate}}E" target="_blank">
+                    <div class="map-icon">
+                        <img class="map-icon" src="/images/map_icon.png" alt="Map Icon">
+                    </div>
+                </a>
+            </td>
+            {{!-- <td>
+                <a href="/recycler/order/accept/{{this.order_id}}">
+                    <input type="button" class="action" id="accept" value="Accept">
+                </a>
+            </td> --}}
+        </tr>
+        {{/each}}
+
+    </table>
+
+    {{!-- <div id="execute-order-form">
+        <form id="execute-form" onsubmit="return validateOtp()" method="post">
             <button id="close-execute-form-button">X</button>
             <label for="otp">OTP</label>
             <input type="text" name="otp" id="otp" placeholder="Enter the OTP" required>
@@ -103,7 +180,7 @@
 
             <button type="submit">Validate Order</button>
         </form>
-    </div>
+    </div> --}}
 
     <a href="/recycler/logout"><input type="button" value="logout" class="logout-btn" id="logout"></a>
     {{!-- {{>footer}} --}}
