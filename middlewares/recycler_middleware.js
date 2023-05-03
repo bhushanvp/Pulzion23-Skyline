@@ -130,8 +130,14 @@ const executeOrder = async (req, res, next) => {
     console.log(order_id);
     try {
         await db.promise().query(`update orders set order_status = -2, recycler_id = ${req.session.company_id} where order_id = ${order_id};`)
-            .then(() => {
-                console.log(`Executed Order ${order_id} by recycler`);
+            .then(async() => {
+                await orders.deleteOne({order_id:order_id})
+                .then((ok) => {
+                    console.log(`Executed Order ${order_id} by recycler`);
+                })
+                .catch((err) => {
+                    console.log(err.message);
+                })
             })
             .catch((err) => {
                 console.log(err.message);
@@ -151,11 +157,18 @@ const rejectOrder = async (req, res, next) => {
             .then(async() => {
                 try {
                     // mongo query to add recycler_id to rejected array
-                    await orders.updateOne({order_id:order_id},{$push:{rejected_by:req.session.company_id}}) 
+                    await orders.updateOne({order_id:order_id},{$push:{rejected_by:req.session.company_id}})
+                    .then(() => {
+                        // console.log(`Rejected Order ${order_id} by recycler`);
+                        next()
+                        return
+                    })
+                    .catch((err) => {
+                        console.log(err);
+                    } )
                 } catch (error) {
                     console.log(error);
                 }
-                console.log(`Rejected Order ${order_id} by recycler`);
             })
             .catch((err) => {
                 console.log(err.message);

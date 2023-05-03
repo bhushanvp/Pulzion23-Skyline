@@ -1,5 +1,6 @@
 const bcrypt = require("bcrypt")
 const {db} = require("../db/conn")
+const {orders} = require("../db/conn")
 
 const register = async (req, res, next) => {
     const producer_name = req.body['company-name']
@@ -119,7 +120,6 @@ const isAuth = (req, res, next) => {
 
 const createOrder = async (req, res, next) => {
     const waste_type = Number(req.body['waste_type'])
-    console.log(req.body);
     const waste_quantity = req.body['waste_quantity']
     const pickup_time = req.body['pick_up_time']
 
@@ -129,6 +129,7 @@ const createOrder = async (req, res, next) => {
         // await db.promise().query(`select count(*) from addresses where company_id > 19999 and north_coordinate > 0 and east_coordinate > 0 and company_id in (select company_id from recyclers where waste_type = ${waste_type});`)
         await db.promise().query(`select count(*) from addresses where company_id > 19999 and company_id in (select company_id from recyclers where waste_type = ${waste_type});`)
         .then((data) => {
+            // console.log("Here");
             count = data[0][0]['count(*)']
         })
         .catch((err) => {
@@ -139,14 +140,23 @@ const createOrder = async (req, res, next) => {
         if (count>0) {
             //////////////////////////////////////////////////////////////////////
             await db.promise().query(`insert into orders (producer_id, waste_type, waste_quantity, pickup_date, order_status, north_coordinate, east_coordinate) values (${req.session.company_id}, ${waste_type}, '${waste_quantity}', '${pickup_time}', ${count}, ${req.session.north}, ${req.session.east});`)
-            .then(() => {
+            .then(async (data) => {
+                // console.log(data[0]['insertId']);
+                let order_id = data[0]['insertId']
+                console.log(order_id);
+                const order = {
+                    order_id: order_id,
+                    rejected_by: []
+                }
+                await orders.insertMany(order)
+
                 // console.log(`Found ${count} recycler(s)`);
                 // console.log("Created Order");
-            req.session.order_status = "Order Placed"
+                req.session.order_status = "Order Placed"
             })
             .catch((err) => {
                 console.log(err.message);
-            req.session.order_status = "No recyclers found"
+                req.session.order_status = "No recyclers found"
             })
         }
         else {
