@@ -1,7 +1,9 @@
 const express = require("express")
 const recycler_router = new express.Router()
-const db = require("../db/conn")
+const {db} = require("../db/conn")
+const {orders} = require("../db/conn")
 const middleware = require("../middlewares/recycler_middleware")
+// const orders_db = require("../db/orders_conn")
 
 recycler_router.post("/recycler/register", middleware.register, async (req, res) => {
     if (req.session.isAuth) {
@@ -36,9 +38,21 @@ recycler_router.get("/recycler/dashboard", middleware.isAuth ,async (req, res) =
 
     // Display available Requests
     let available_requests;
+    let available_requests_not_rej = [];
     await db.promise().query(`select * from orders where waste_type = ${req.session.waste_type} and order_status > 0;`)
-    .then((data) => {
+    .then(async(data) => {
         available_requests = data[0]
+        for (let i = 0; i < available_requests.length; i++) {
+            await orders.find({order_id: temp_order_id})
+            .then((data) => {
+                console.log(data);
+            })
+            .catch((err) => {
+                console.log("Cannot get data", err.message);
+            })
+            temp_order_id = available_requests[i].order_id;
+            available_requests_not_rej.push(available_requests);
+        }
         // console.log(available_requests);
     }).catch((err) => {
         console.log(err.message);

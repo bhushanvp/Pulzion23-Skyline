@@ -1,6 +1,6 @@
 const express = require("express")
 const producer_router = new express.Router()
-const db = require("../db/conn")
+const {db} = require("../db/conn")
 const middleware = require("../middlewares/producer_middleware")
 
 producer_router.post("/producer/register", middleware.register, async (req, res) => {

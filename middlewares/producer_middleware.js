@@ -1,5 +1,5 @@
 const bcrypt = require("bcrypt")
-const db = require("../db/conn")
+const {db} = require("../db/conn")
 
 const register = async (req, res, next) => {
     const producer_name = req.body['company-name']

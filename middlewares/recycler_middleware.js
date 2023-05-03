@@ -1,6 +1,5 @@
 const bcrypt = require("bcrypt")
-const db = require("../db/conn")
-const mailer = require('nodemailer')
+const {db} = require("../db/conn")
 
 const register = async (req, res, next) => {
     const recycler_name = req.body['company-name']
@@ -153,13 +152,7 @@ const executeOrder = async (req, res, next) => {
     next()
 }
 
-const validateOtp = (req, res, next) => {
-    const entered_otp = req.body['otp']
-    console.log(entered_otp);
-    next()
-}
-
-module.exports = { register, login, isAuth, acceptOrder, executeOrder, validateOtp }
+module.exports = { register, login, isAuth, acceptOrder, executeOrder }
 
 
 
