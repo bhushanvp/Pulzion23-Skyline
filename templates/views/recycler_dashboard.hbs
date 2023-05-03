@@ -66,7 +66,7 @@
             <th>Waste Quantity</th>
             <th>Pickup Time Requested</th>
             <th>Location</th>
-            <th>Accept</th>
+            <th>Status</th>
         </tr>
 
         {{#each available_requests}}
@@ -86,6 +86,9 @@
             <td>
                 <a href="/recycler/order/accept/{{this.order_id}}">
                     <input type="button" class="action" id="accept" value="Accept">
+                </a>&ensp;
+                <a href="/recycler/order/reject/{{this.order_id}}">
+                    <input type="button" class="action" id="reject" value="Reject">
                 </a>
             </td>
         </tr>

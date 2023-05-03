@@ -101,6 +101,12 @@ recycler_router.get('/recycler/order/execute/:id', middleware.isAuth, middleware
     res.redirect('/recycler/dashboard')
 })
 
+
+recycler_router.get('/recycler/order/reject/:id', middleware.isAuth, middleware.rejectOrder, async (req,res)=>{
+    console.log(req.session.isAuth, "outside");
+    res.redirect('/recycler/dashboard')
+})
+
 recycler_router.get("/recycler/logout", middleware.isAuth, (req, res) => {
     res.clearCookie("connect.sid")
     req.session.destroy()

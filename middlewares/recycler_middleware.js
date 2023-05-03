@@ -1,5 +1,6 @@
 const bcrypt = require("bcrypt")
 const {db} = require("../db/conn")
+const {orders} = require("../db/conn")
 
 const register = async (req, res, next) => {
     const recycler_name = req.body['company-name']
@@ -134,7 +135,7 @@ const acceptOrder = async (req, res, next) => {
 }
 
 const executeOrder = async (req, res, next) => {
-    console.log("Here");
+    // console.log("Here");
     const order_id = req.params['id'];
 
     console.log(order_id);
@@ -152,7 +153,33 @@ const executeOrder = async (req, res, next) => {
     next()
 }
 
-module.exports = { register, login, isAuth, acceptOrder, executeOrder }
+const rejectOrder = async (req, res, next) => {
+    // console.log("Here");
+    const order_id = req.params['id'];
+    console.log(order_id);
+    try {
+        await db.promise().query(`update orders set order_status = order_status-1 where order_id = ${order_id};`)
+            .then(async() => {
+                try {
+                    // mongo query to add recycler_id to rejected array
+                    await orders.updateOne({order_id:order_id},{$push:{rejected_by:req.session.company_id}}) 
+                } catch (error) {
+                    console.log(error);
+                }
+                console.log(`Rejected Order ${order_id} by recycler`);
+            })
+            .catch((err) => {
+                console.log(err.message);
+            })
+    } catch (error) {
+        console.log(error.message);
+    }
+    next()
+}
+
+
+
+module.exports = { register, login, isAuth, acceptOrder, executeOrder , rejectOrder}
 
 
 
