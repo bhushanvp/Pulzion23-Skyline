@@ -16,27 +16,18 @@ const register = async (req, res, next) => {
 
     const north = parseFloat(req.body['north-coordinate'])
     const east = parseFloat(req.body['east-coordinate'])
-
-    let waste_type;
-
-    if (req.body.iron) {
-        waste_type = 2
-    }
-    if (req.body.plastic) {
-        waste_type = 4
-    }
-    if (req.body.organic) {
-        waste_type = 8
-    }
+    
+    const waste_type = Number(req.body['waste-type'])
 
     try {
+
         let company_id;
 
         await db.promise().query(`insert into producers (producer_name, producer_email, producer_contact_number, waste_type, password) values ('${producer_name}', '${email}', ${contact_number}, ${waste_type}, '${password}');`)
             .then(async (data) => {
                 company_id = data[0]['insertId']
 
-                await db.promise().query(`insert into addresses values (${company_id}, ${building_number},'${building_name}', '${street}', '${city}', '${district}', ${pincode}, ${north}, ${east})`)
+                await db.promise().query(`insert into addresses values (${company_id}, '${building_number}','${building_name}', '${street}', '${city}', '${district}', ${pincode}, ${north}, ${east})`)
                     .then((data) => {
                         req.session.username = producer_name
                         req.session.id = company_id
@@ -44,23 +35,28 @@ const register = async (req, res, next) => {
                         req.session.east = east
                         req.session.entity = "producer"
                         req.session.isAuth = true
+                        // res.redirect("/producer/dashboard")
                         next()
+                        return
                     })
                     .catch((err) => {
-                        // console.log(err);
-                        req.session.isAuth = false
+                        console.log(err);
+                        // res.redirect("/register")
+                        // req.session.isAuth = false
                     })
 
-                res.redirect("/producer/dashboard")
             })
             .catch((err) => {
-                // console.log(err.message);
-                req.session.isAuth = false
+                console.log(err);
+                // res.redirect("/register")
+                // req.session.isAuth = false
             })
     } catch (error) {
-        // console.log(error.message);
-        req.session.isAuth = false
+        console.log(error);
+        // res.redirect("/register")
+        // req.session.isAuth = false
     }
+    // req.session.isAuth = true
 }
 
 const login = async (req, res, next) => {

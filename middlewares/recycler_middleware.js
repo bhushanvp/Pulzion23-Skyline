@@ -18,17 +18,7 @@ const register = async (req, res, next) => {
     const north = parseFloat(req.body['north-coordinate'])
     const east = parseFloat(req.body['east-coordinate'])
 
-    let waste_type;
-
-    if (req.body.iron) {
-        waste_type = 2
-    }
-    if (req.body.plastic) {
-        waste_type = 4
-    }
-    if (req.body.organic) {
-        waste_type = 8
-    }
+    const waste_type = Number(req.body['waste-type'])
 
     try {
         let company_id;
@@ -37,28 +27,28 @@ const register = async (req, res, next) => {
             .then(async (data) => {
                 company_id = data[0]['insertId']
 
-                await db.promise().query(`insert into addresses values (${company_id}, ${building_number},'${building_name}', '${street}', '${city}', '${district}', ${pincode}, ${north}, ${east});`)
+                await db.promise().query(`insert into addresses values (${company_id}, '${building_number}','${building_name}', '${street}', '${city}', '${district}', ${pincode}, ${north}, ${east});`)
                     .then((data) => {
                         req.session.username = recycler_name
                         req.session.company_id = company_id
-                        req.session.email = recycler_email
                         req.session.waste_type = waste_type
                         req.session.entity = "recycler"
                         req.session.isAuth = true
                         next()
+                        return
                     })
                     .catch((err) => {
-                        // console.log(err);
-                        req.session.isAuth = false
+                        console.log(err);
+                        // req.session.isAuth = false
                     })
             })
             .catch((err) => {
-                // console.log(err.message);
-                req.session.isAuth = false
+                console.log(err.message);
+                // req.session.isAuth = false
             })
     } catch (error) {
-        // console.log(error.message);
-        req.session.isAuth = false
+        console.log(error.message);
+        // req.session.isAuth = false
     }
 }
 
@@ -81,7 +71,6 @@ const login = async (req, res, next) => {
                         // console.log("Logged in successfully");
                         req.session.username = user.recycler_name
                         req.session.company_id = user.company_id
-                        req.session.email = user.recycler_email
                         req.session.waste_type = user.waste_type
                         req.session.entity = "recycler"
                         req.session.isAuth = true

@@ -8,10 +8,11 @@ const middleware = require("../middlewares/recycler_middleware")
 recycler_router.post("/recycler/register", middleware.register, async (req, res) => {
     if (req.session.isAuth) {
         req.session.isAuth = true
+        console.log(req.session.isAuth);
         res.redirect("/recycler/dashboard")
     }
     else {
-        res.render("login")
+        res.render("register")
     }
 })
 

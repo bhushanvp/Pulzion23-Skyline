@@ -4,11 +4,12 @@ const {db} = require("../db/conn")
 const middleware = require("../middlewares/producer_middleware")
 
 producer_router.post("/producer/register", middleware.register, async (req, res) => {
+    console.log(req.session.isAuth);
     if (req.session.isAuth) {
         res.redirect("/producer/dashboard")
     }
     else {
-        res.render("login")
+        res.render("register")
     }
 })
 
