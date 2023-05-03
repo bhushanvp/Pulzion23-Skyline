@@ -114,29 +114,28 @@ const isAuth = (req, res, next) => {
 }
 
 const acceptOrder = async (req, res, next) => {
+    req.session.isAuth = true
     const order_id = req.params['id']
-
-    console.log(order_id);
-
     try {
         await db.promise().query(`update orders set order_status = -1, recycler_id = ${req.session.company_id} where order_id = ${order_id};`)
             .then(() => {
                 // console.log("Accepted Order");
+                req.session.isAuth = true
             })
             .catch((err) => {
                 // console.log(err.message);
+                req.session.isAuth = true
             })
     } catch (error) {
         // console.log(error.message);
+        req.session.isAuth = true
     }
+    req.session.isAuth = true
     next()
 }
 
 const executeOrder = async (req, res, next) => {
     console.log("Here");
-    function between(min, max) {
-        return Math.floor(Math.random() * (max - min) + min);
-    }
     const order_id = req.params['id'];
 
     console.log(order_id);
