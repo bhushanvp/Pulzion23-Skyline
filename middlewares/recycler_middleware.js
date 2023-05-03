@@ -41,7 +41,7 @@ const register = async (req, res, next) => {
                     .then((data) => {
                         req.session.username = recycler_name
                         req.session.company_id = company_id
-                        // req.session.email = recycler_email
+                        req.session.email = recycler_email
                         req.session.waste_type = waste_type
                         req.session.entity = "recycler"
                         req.session.isAuth = true
@@ -81,7 +81,7 @@ const login = async (req, res, next) => {
                         // console.log("Logged in successfully");
                         req.session.username = user.recycler_name
                         req.session.company_id = user.company_id
-                        // req.session.email = user.recycler_email
+                        req.session.email = user.recycler_email
                         req.session.waste_type = user.waste_type
                         req.session.entity = "recycler"
                         req.session.isAuth = true
@@ -133,7 +133,12 @@ const acceptOrder = async (req, res, next) => {
 }
 
 const executeOrder = async (req, res, next) => {
-    const order_id = req.params['id']
+    console.log("Here");
+    function between(min, max) {
+        return Math.floor(Math.random() * (max - min) + min);
+    }
+    const order_id = req.params['id'];
+
     console.log(order_id);
     try {
         await db.promise().query(`update orders set order_status = -2, recycler_id = ${req.session.company_id} where order_id = ${order_id};`)
