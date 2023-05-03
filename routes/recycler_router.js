@@ -48,7 +48,7 @@ recycler_router.get("/recycler/dashboard", middleware.isAuth ,async (req, res) =
             await orders.find({order_id: temp_order_id, rejected_by: req.session.company_id})
             .then((data) => {
                 if (data.length === 0) {
-                    console.log(data);
+                    // console.log(data);
                     available_requests_not_rej.push(available_requests[i]);
                 }
             })
