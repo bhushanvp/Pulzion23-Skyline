@@ -43,15 +43,18 @@ recycler_router.get("/recycler/dashboard", middleware.isAuth ,async (req, res) =
     .then(async(data) => {
         available_requests = data[0]
         for (let i = 0; i < available_requests.length; i++) {
-            await orders.find({order_id: temp_order_id})
+            temp_order_id = available_requests[i].order_id;
+            // await orders.find({order_id: temp_order_id, rejected_by: req.session.company_id})
+            await orders.find({order_id: temp_order_id, rejected_by: req.session.company_id})
             .then((data) => {
-                console.log(data);
+                if (data.length === 0) {
+                    console.log(data);
+                    available_requests_not_rej.push(available_requests[i]);
+                }
             })
             .catch((err) => {
                 console.log("Cannot get data", err.message);
             })
-            temp_order_id = available_requests[i].order_id;
-            available_requests_not_rej.push(available_requests);
         }
         // console.log(available_requests);
     }).catch((err) => {
@@ -83,7 +86,7 @@ recycler_router.get("/recycler/dashboard", middleware.isAuth ,async (req, res) =
     res.render("recycler_dashboard", {
         name: req.session.username,
         accepted_requests: accepted_requests,
-        available_requests: available_requests,
+        available_requests: available_requests_not_rej,
         pending_verification_requests: pending_verification_requests,
         executed_requests: executed_requests
     })
