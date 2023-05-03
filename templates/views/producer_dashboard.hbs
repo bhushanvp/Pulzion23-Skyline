@@ -15,7 +15,7 @@
     <div class="greet">Hello {{name}}</div>
 
     <hr>
-
+        <span class="err" id="order-status">{{order_status}}</span>
     <br>
 
     <div class="accepted-requests-label">Accepted Requests</div>
@@ -63,8 +63,58 @@
     </table>
 
     <br>
-        <span class="err" id="order-status">{{order_status}}</span>
+    <hr>
 
+    <div class="pending-verification-requests-label">Pending Verification Requests</div>
+    <table class="pending-verification-requests">
+        <tr class="table-headings">
+            <th>Order I.D.</th>
+            <th>Waste Type</th>
+            <th>Waste Quantity</th>
+            <th>Pickup Time</th>
+            <th>Execute</th>
+        </tr>
+
+        {{#each pending_verification_requests}}
+        <tr class="pending-verification-request">
+            <td>{{this.order_id}}</td>
+            <td>{{this.waste_type}}</td>
+            <td>{{this.waste_quantity}}</td>
+            <td>{{this.pickup_date}}</td>
+            <td>
+                <a href="/producer/order/execute/{{this.order_id}}">
+                    <input type="button" class="action" id="execute" value="Execute">
+                </a>
+            </td>
+        </tr>
+        {{/each}}
+
+    </table>
+
+    <br>
+    <hr>
+
+    <div class="executed-requests-label">Executed Requests</div>
+    <table class="executed-requests">
+        <tr class="table-headings">
+            <th>Order I.D.</th>
+            <th>Waste Type</th>
+            <th>Waste Quantity</th>
+            <th>Pickup Time</th>
+        </tr>
+
+        {{#each executed_requests}}
+        <tr class="executed-request">
+            <td>{{this.order_id}}</td>
+            <td>{{this.waste_type}}</td>
+            <td>{{this.waste_quantity}}</td>
+            <td>{{this.pickup_date}}</td>
+        </tr>
+        {{/each}}
+
+    </table>
+
+    <br>
     <hr>
 
     <div class="create-order">
@@ -73,7 +123,6 @@
             <span>Create an order</span>
         </div>
         
-
         <div id="create-order-form">
             <form action="/producer/create-order" method="post" onsubmit="return validateOrder()">
                 <button id="close-button">X</button>

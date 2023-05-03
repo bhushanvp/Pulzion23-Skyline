@@ -164,4 +164,21 @@ const createOrder = async (req, res, next) => {
     next()
 }
 
-module.exports = { register, login, isAuth, createOrder }
+const executeOrder = async (req, res, next) => {
+    const order_id = req.params['id']
+    console.log(order_id);
+    try {
+        await db.promise().query(`update orders set order_status = -3, producer_id = ${req.session.company_id} where order_id = ${order_id};`)
+            .then(() => {
+                console.log(`Executed Order ${order_id} by producer`);
+            })
+            .catch((err) => {
+                console.log(err.message);
+            })
+    } catch (error) {
+        console.log(error.message);
+    }
+    next()
+}
+
+module.exports = { register, login, isAuth, createOrder, executeOrder }

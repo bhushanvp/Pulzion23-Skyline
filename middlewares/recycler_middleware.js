@@ -1,5 +1,6 @@
 const bcrypt = require("bcrypt")
 const db = require("../db/conn")
+const mailer = require('nodemailer')
 
 const register = async (req, res, next) => {
     const recycler_name = req.body['company-name']
@@ -40,7 +41,7 @@ const register = async (req, res, next) => {
                     .then((data) => {
                         req.session.username = recycler_name
                         req.session.company_id = company_id
-                        req.session.email = recycler_email 
+                        // req.session.email = recycler_email
                         req.session.waste_type = waste_type
                         req.session.entity = "recycler"
                         req.session.isAuth = true
@@ -75,12 +76,12 @@ const login = async (req, res, next) => {
                 req.session.isAuth = false
             }
             bcrypt.compare(password, user['password'])
-            .then((auth) => {
+                .then((auth) => {
                     if (auth) {
                         // console.log("Logged in successfully");
                         req.session.username = user.recycler_name
                         req.session.company_id = user.company_id
-                        req.session.email = user.recycler_email 
+                        // req.session.email = user.recycler_email
                         req.session.waste_type = user.waste_type
                         req.session.entity = "recycler"
                         req.session.isAuth = true
@@ -118,28 +119,56 @@ const acceptOrder = async (req, res, next) => {
     console.log(order_id);
 
     try {
-        await db.promise().query(`update orders set order_status = 111, recycler_id = ${req.session.company_id} where order_id = ${order_id};`)
-        .then(() => {
-            // console.log("Accepted Order");
-        })
-        .catch((err) => {
-            // console.log(err.message);
-        })
+        await db.promise().query(`update orders set order_status = -1, recycler_id = ${req.session.company_id} where order_id = ${order_id};`)
+            .then(() => {
+                // console.log("Accepted Order");
+            })
+            .catch((err) => {
+                // console.log(err.message);
+            })
     } catch (error) {
         // console.log(error.message);
     }
     next()
 }
 
-const executeOrder = async (req,res,next)=>{
+const executeOrder = async (req, res, next) => {
     const order_id = req.params['id']
-    
+    console.log(order_id);
     try {
-            
+        await db.promise().query(`update orders set order_status = -2, recycler_id = ${req.session.company_id} where order_id = ${order_id};`)
+            .then(() => {
+                console.log(`Executed Order ${order_id} by recycler`);
+            })
+            .catch((err) => {
+                console.log(err.message);
+            })
     } catch (error) {
-        console.log(error);
+        console.log(error.message);
     }
-
+    next()
 }
 
-module.exports = { register, login, isAuth, acceptOrder, executeOrder }
+const validateOtp = (req, res, next) => {
+    const entered_otp = req.body['otp']
+    console.log(entered_otp);
+    next()
+}
+
+module.exports = { register, login, isAuth, acceptOrder, executeOrder, validateOtp }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
