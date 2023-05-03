@@ -123,6 +123,7 @@ const isAuth = (req, res, next) => {
 
 const createOrder = async (req, res, next) => {
     const waste_type = Number(req.body['waste_type'])
+    console.log(req.body);
     const waste_quantity = req.body['waste_quantity']
     const pickup_time = req.body['pick_up_time']
 

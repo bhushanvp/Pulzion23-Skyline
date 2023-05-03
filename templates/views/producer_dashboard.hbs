@@ -127,7 +127,13 @@
             <form action="/producer/create-order" method="post" onsubmit="return validateOrder()">
                 <button id="close-button">X</button>
                 <label for="waste-type">Material of Waste</label>
-                <input type="text" name="waste_type" id="waste-type" placeholder="Enter the type of waste">
+                {{!-- <input type="text" name="waste_type" id="waste-type" placeholder="Enter the type of waste"> --}}
+                <select name="waste_type" id="waste-type" required>
+                    <option value="">Please select an option</option>
+                    <option value=2>Iron</option>
+                    <option value=4>Plastic</option>
+                    <option value=8>Organic</option>
+                </select>
                 <span id="no-waste-type"></span>
 
                 <br>
