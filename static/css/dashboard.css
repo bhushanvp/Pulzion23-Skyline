@@ -149,6 +149,7 @@ table th {
 /* Accepted Requests Table */
 .accepted-requests-label,
 .available-requests-label,
+.pending-requests-label,
 .pending-verification-requests-label,
 .executed-requests-label {
     display: flex;

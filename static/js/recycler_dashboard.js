@@ -30,34 +30,3 @@ if (exe_req[0].children[0].childElementCount<2) {
     no_exe_req.textContent = "You have not executed any requests as of now"
     exe_req[0].style.display = 'none'
 }
-
-// console.log(acc_req, pend_req);
-const execute_form = document.getElementById("execute-order-form")
-const execute_btns = document.getElementsByClassName("execute")
-const close_execute_form_btn = document.getElementById("close-execute-form-button")
-
-console.log(execute_btns);
-// execute_btn.addEventListener("click", (event) => {
-//   // console.log("Open");
-//   event.preventDefault();
-//   execute_form.style.display = "block"
-// })
-
-close_execute_form_btn.addEventListener("click", () => {
-  // console.log("close");
-  execute_form.style.display = "none"
-})
-
-const otp = document.getElementById("otp")
-
-const form = document.getElementById("execute-form")
-const validateOtp = () => {
-  if (otp.value === null) {
-    console.log(otp.value);
-    return false
-  }
-  else {
-    form.action = "/recycler/dashboard"
-    return true
-  }
-}

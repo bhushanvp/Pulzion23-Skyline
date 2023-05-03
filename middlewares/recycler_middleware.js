@@ -41,7 +41,7 @@ const register = async (req, res, next) => {
                     .then((data) => {
                         req.session.username = recycler_name
                         req.session.company_id = company_id
-                        req.session.email = recycler_email
+                        // req.session.email = recycler_email
                         req.session.waste_type = waste_type
                         req.session.entity = "recycler"
                         req.session.isAuth = true
@@ -81,7 +81,7 @@ const login = async (req, res, next) => {
                         // console.log("Logged in successfully");
                         req.session.username = user.recycler_name
                         req.session.company_id = user.company_id
-                        req.session.email = user.recycler_email
+                        // req.session.email = user.recycler_email
                         req.session.waste_type = user.waste_type
                         req.session.entity = "recycler"
                         req.session.isAuth = true
