@@ -41,11 +41,6 @@ app_router.get("/contact", (req, res) => {
     }
 })
 
-app_router.post("/contact", (req, res) => {
-    
-    res.render("contact", {status: status})
-})
-
 app_router.get("/about", (req, res) => {
     if (req.session.isAuth) {
         req.session.isAuth = true
