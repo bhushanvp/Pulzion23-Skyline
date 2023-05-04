@@ -3,7 +3,6 @@ const recycler_router = new express.Router()
 const {db} = require("../db/conn")
 const {orders} = require("../db/conn")
 const middleware = require("../middlewares/recycler_middleware")
-// const orders_db = require("../db/orders_conn")
 
 recycler_router.post("/recycler/register", middleware.register, async (req, res) => {
     console.log(req.session.isAuth);
@@ -31,7 +30,7 @@ recycler_router.post("/recycler/login", middleware.login, async (req, res) => {
 recycler_router.get("/recycler/dashboard", middleware.isAuth ,async (req, res) => {
     // Display Accepted Requests
     let accepted_requests;
-    await db.promise().query(`select * from orders where recycler_id = ${req.session.company_id} and order_status = -1;`)
+    await db.promise().query(`select * from orders where recycler_id = ${req.session.company_id} and order_status = ${process.env.ACCEPT_ORDER_STATUS};`)
     .then((data) => {
         accepted_requests = data[0]
         // console.log(accepted_requests);
@@ -42,7 +41,7 @@ recycler_router.get("/recycler/dashboard", middleware.isAuth ,async (req, res) =
     // Display available Requests
     let available_requests;
     let available_requests_not_rej = [];
-    await db.promise().query(`select * from orders where waste_type = ${req.session.waste_type} and order_status > 0;`)
+    await db.promise().query(`select * from orders where waste_type = ${req.session.waste_type} and order_status > ${process.env.ENTIRELY_REJECTED_ORDER};`)
     .then(async(data) => {
         available_requests = data[0]
         for (let i = 0; i < available_requests.length; i++) {
@@ -66,7 +65,7 @@ recycler_router.get("/recycler/dashboard", middleware.isAuth ,async (req, res) =
 
     // Display Pending Verification Requests
     let pending_verification_requests;
-    await db.promise().query(`select * from orders where recycler_id = ${req.session.company_id} and order_status = -2;`)
+    await db.promise().query(`select * from orders where recycler_id = ${req.session.company_id} and order_status = ${process.env.RECYCLER_EXECUTE_ORDER_STATUS};`)
     .then((data) => {
         pending_verification_requests = data[0]
         // console.log(pending_verification_requests);
@@ -76,7 +75,7 @@ recycler_router.get("/recycler/dashboard", middleware.isAuth ,async (req, res) =
 
     // Display Executed Requests
     let executed_requests;
-    await db.promise().query(`select * from orders where recycler_id = ${req.session.company_id} and order_status = -3;`)
+    await db.promise().query(`select * from orders where recycler_id = ${req.session.company_id} and order_status = ${process.env.PRODUCER_EXECUTE_ORDER_STATUS};`)
     .then((data) => {
         executed_requests = data[0]
         // console.log(executed_requests);
@@ -111,7 +110,7 @@ recycler_router.get('/recycler/order/reject/:id', middleware.isAuth, middleware.
 })
 
 recycler_router.get("/recycler/logout", middleware.isAuth, (req, res) => {
-    res.clearCookie("connect.sid")
+    res.clearCookie(process.env.COOKIE_NAME)
     req.session.destroy()
     console.log("Logged out successfully");
     res.redirect("/login")

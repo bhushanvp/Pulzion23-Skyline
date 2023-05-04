@@ -48,14 +48,14 @@ app_router.post("/contact", (req, res) => {
     smtpProtocol = mailer.createTransport({
         service: "Gmail",
         auth: {
-          user: "adityapatildev2810@gmail.com",
-          pass: "lfqsebfbrmkfixig",
+          user: process.env.COMPANY_EMAIL,
+          pass: process.env.COMPANY_EMAIL_PASSWORD,
         },
       });
 
       var mailoption = {
         from: email,
-        to: "adityapatildev2810@gmail.com",
+        to: process.env.COMPANY_EMAIL,
         subject: subject,
         html: `<p>${message}</p>`,
       };

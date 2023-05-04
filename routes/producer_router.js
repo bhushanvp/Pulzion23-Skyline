@@ -31,7 +31,7 @@ producer_router.get("/producer/dashboard", middleware.isAuth ,async (req, res) =
     // Display Accepted Requests
     let accepted_requests;
 
-    await db.promise().query(`select * from orders where producer_id = ${req.session.company_id} and order_status = -1;`).then((data) => {
+    await db.promise().query(`select * from orders where producer_id = ${req.session.company_id} and order_status = ${process.env.ACCEPT_ORDER_STATUS};`).then((data) => {
         accepted_requests = data[0]
     }).catch((err) => {
         console.log(err.message);
@@ -39,7 +39,7 @@ producer_router.get("/producer/dashboard", middleware.isAuth ,async (req, res) =
     
     // Display Pending Requests
     let pending_requests;
-    await db.promise().query(`select * from orders where producer_id = ${req.session.company_id} and order_status > 0;`).then((data) => {
+    await db.promise().query(`select * from orders where producer_id = ${req.session.company_id} and order_status > ${process.env.ENTIRELY_REJECTED_ORDER};`).then((data) => {
         pending_requests = data[0]
         // console.log(pending_requests);
     }).catch((err) => {
@@ -48,7 +48,7 @@ producer_router.get("/producer/dashboard", middleware.isAuth ,async (req, res) =
 
     // Display pending_execution Requests
     let pending_verification_requests;
-    await db.promise().query(`select * from orders where producer_id = ${req.session.company_id} and order_status = -2;`).then((data) => {
+    await db.promise().query(`select * from orders where producer_id = ${req.session.company_id} and order_status = ${process.env.RECYCLER_EXECUTE_ORDER_STATUS};`).then((data) => {
         pending_verification_requests = data[0]
     }).catch((err) => {
         console.log(err.message);
@@ -56,7 +56,7 @@ producer_router.get("/producer/dashboard", middleware.isAuth ,async (req, res) =
 
     // Display Executed Requests
     let executed_requests;
-    await db.promise().query(`select * from orders where producer_id = ${req.session.company_id} and order_status = -3;`).then((data) => {
+    await db.promise().query(`select * from orders where producer_id = ${req.session.company_id} and order_status = ${process.env.PRODUCER0_EXECUTE_ORDER_STATUS};`).then((data) => {
         executed_requests = data[0]
     }).catch((err) => {
         console.log(err.message);
@@ -85,7 +85,7 @@ producer_router.get("/producer/order/execute/:id", middleware.isAuth, middleware
 })
 
 producer_router.get("/producer/logout", middleware.isAuth, (req, res) => {
-    res.clearCookie("connect.sid")
+    res.clearCookie(process.env.COOKIE_NAME)
     req.session.destroy()
     console.log("Logged out successfully");
     res.redirect("/login")

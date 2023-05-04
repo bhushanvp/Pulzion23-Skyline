@@ -1,7 +1,7 @@
 const mysql = require("mysql2")
 const mongoose = require("mongoose")
 
-mongoose.connect("mongodb://127.0.0.1:27017/db1")
+mongoose.connect(process.env.MONGODB_URL)
 .then(() => {
     console.log("Orders DB Connected");
 })

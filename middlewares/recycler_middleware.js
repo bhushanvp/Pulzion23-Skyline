@@ -1,7 +1,7 @@
 const bcrypt = require("bcrypt")
 const {db} = require("../db/conn")
 const {orders} = require("../db/conn")
-
+ 
 const register = async (req, res, next) => {
     req.session.alreadyRegistered = false
     const recycler_name = req.body['company-name']
@@ -121,7 +121,7 @@ const acceptOrder = async (req, res, next) => {
     req.session.isAuth = true
     const order_id = req.params['id']
     try {
-        await db.promise().query(`update orders set order_status = -1, recycler_id = ${req.session.company_id} where order_id = ${order_id};`)
+        await db.promise().query(`update orders set order_status = ${process.env.ACCEPT_ORDER_STATUS}, recycler_id = ${req.session.company_id} where order_id = ${order_id};`)
             .then(() => {
                 // console.log("Accepted Order");
                 req.session.isAuth = true
@@ -144,7 +144,7 @@ const executeOrder = async (req, res, next) => {
 
     console.log(order_id);
     try {
-        await db.promise().query(`update orders set order_status = -2, recycler_id = ${req.session.company_id} where order_id = ${order_id};`)
+        await db.promise().query(`update orders set order_status = ${process.env.RECYCLER_EXECUTE_ORDER_STATUS}, recycler_id = ${req.session.company_id} where order_id = ${order_id};`)
             .then(async() => {
                 await orders.deleteOne({order_id:order_id})
                 .then((ok) => {

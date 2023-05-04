@@ -2,11 +2,11 @@ const express = require("express")
 const app = express()
 const path = require("path")
 const hbs = require("hbs")
-
 const session = require("express-session")
+require('dotenv').config();
 
 app.use(session({
-    secret: "bhushan",
+    secret: process.env.SECRET,
     saveUninitialized: false,
     resave: false,
     cookie: {
@@ -35,6 +35,6 @@ app.use(app_router)
 app.use(producer_router)
 app.use(recycler_router)
 
-app.listen(5000, '0.0.0.0', () => {
+app.listen(process.env.PORT, '0.0.0.0', () => {
     console.log("Server listening on port 5000... http://localhost:5000");
 })
