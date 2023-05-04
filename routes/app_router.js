@@ -8,7 +8,7 @@ app_router.get("/", (req, res) => {
         res.redirect(`/${req.session.entity}/dashboard`)
     }
     else {
-        res.render("index", {name: "World"})
+        res.render("index")
     }
 })
 

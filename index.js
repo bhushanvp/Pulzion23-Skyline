@@ -35,6 +35,6 @@ app.use(app_router)
 app.use(producer_router)
 app.use(recycler_router)
 
-app.listen(5000, () => {
+app.listen(5000, '0.0.0.0', () => {
     console.log("Server listening on port 5000... http://localhost:5000");
 })

@@ -1,5 +1,4 @@
 * {
-    box-sizing: border-box;
     margin: 0;
     padding: 0;
 }
@@ -72,7 +71,7 @@ main {
     line-height: 1.5;
     margin-bottom: 10px;
   }
-  
+/*   
   ul {
     list-style: disc;
     margin-left: 20px;
@@ -83,5 +82,5 @@ main {
     font-size: 16px;
     line-height: 1.5;
     margin-bottom: 5px;
-  }
+  } */
   
