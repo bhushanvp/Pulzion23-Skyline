@@ -21,14 +21,14 @@ const orders_schema = new mongoose.Schema({
   
 const orders = mongoose.model("orders", orders_schema);
 const db = mysql.createConnection({
-    host: 'localhost',
-    user: 'root',
-    password: 'redhat',
-    database: 'db1'
-    // host: '192.168.1.5',
-    // user: 'ronin2810',
-    // password: 'ronin2810',
+    // host: 'localhost',
+    // user: 'root',
+    // password: 'redhat',
     // database: 'db1'
+    host: '192.168.1.5',
+    user: 'ronin2810',
+    password: 'ronin2810',
+    database: 'db1'
 })
 .on("connect", () => {
     console.log("DB connected");

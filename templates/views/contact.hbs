@@ -12,7 +12,7 @@
 
     <main>
         <br>
-        <form>
+        <form action="/contact" method="post">
         <h1>Contact Us</h1>
             <label for="name">Name: <span class="required-field">*</span></label>
             <input type="text" id="name" name="name" placeholder="Enter your name" required>
@@ -35,7 +35,7 @@
             <br><br>
             <textarea id="message" name="message" placeholder="Enter your message" required></textarea>&ensp;<span
                 class="err" id="no-message"></span>
-
+                <span class="status">{{status}}</span>
             <br>
 
             <button type="submit">Submit</button>

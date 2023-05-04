@@ -1,5 +1,6 @@
 const express = require("express")
 const app_router = new express.Router()
+const mailer = require('nodemailer')
 
 app_router.get("/", (req, res) => {
     if (req.session.isAuth) {
@@ -42,8 +43,31 @@ app_router.get("/contact", (req, res) => {
 })
 
 app_router.post("/contact", (req, res) => {
-    
-    res.render("contact", {status: status})
+    const {email,subject,message} = req.body;
+    let status = "Message sent successfully. We'll revert back soon" 
+    smtpProtocol = mailer.createTransport({
+        service: "Gmail",
+        auth: {
+          user: "adityapatildev2810@gmail.com",
+          pass: "lfqsebfbrmkfixig",
+        },
+      });
+
+      var mailoption = {
+        from: email,
+        to: "adityapatildev2810@gmail.com",
+        subject: subject,
+        html: `<p>${message}</p>`,
+      };
+      smtpProtocol.sendMail(mailoption, function (err, response) {
+        if (err) {
+          console.log(err);
+          status = err.message;
+        }
+        console.log("Message Sent" + response.message);
+        smtpProtocol.close();
+        res.render("contact",{status:status})
+      });
 })
 
 app_router.get("/about", (req, res) => {
