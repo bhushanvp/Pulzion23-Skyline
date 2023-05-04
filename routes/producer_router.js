@@ -31,7 +31,7 @@ producer_router.get("/producer/dashboard", middleware.isAuth ,async (req, res) =
     // Display Accepted Requests
     let accepted_requests;
 
-    await db.promise().query(`select * from orders where producer_id = ${req.session.company_id} and order_status = ${process.env.ACCEPT_ORDER_STATUS};`).then((data) => {
+    await db.promise().query(`select * from orders where producer_id = ${req.session.company_id} and order_status = ${process.env.ACCEPTED_ORDER_STATUS};`).then((data) => {
         accepted_requests = data[0]
     }).catch((err) => {
         console.log(err.message);
@@ -48,7 +48,7 @@ producer_router.get("/producer/dashboard", middleware.isAuth ,async (req, res) =
 
     // Display pending_execution Requests
     let pending_verification_requests;
-    await db.promise().query(`select * from orders where producer_id = ${req.session.company_id} and order_status = ${process.env.RECYCLER_EXECUTE_ORDER_STATUS};`).then((data) => {
+    await db.promise().query(`select * from orders where producer_id = ${req.session.company_id} and order_status = ${process.env.RECYCLER_EXECUTED_ORDER_STATUS};`).then((data) => {
         pending_verification_requests = data[0]
     }).catch((err) => {
         console.log(err.message);
@@ -56,7 +56,7 @@ producer_router.get("/producer/dashboard", middleware.isAuth ,async (req, res) =
 
     // Display Executed Requests
     let executed_requests;
-    await db.promise().query(`select * from orders where producer_id = ${req.session.company_id} and order_status = ${process.env.PRODUCER0_EXECUTE_ORDER_STATUS};`).then((data) => {
+    await db.promise().query(`select * from orders where producer_id = ${req.session.company_id} and order_status = ${process.env.PRODUCER_EXECUTED_ORDER_STATUS};`).then((data) => {
         executed_requests = data[0]
     }).catch((err) => {
         console.log(err.message);

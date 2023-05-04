@@ -191,7 +191,7 @@ const executeOrder = async (req, res, next) => {
     const order_id = req.params['id']
     console.log(order_id);
     try {
-        await db.promise().query(`update orders set order_status = ${process.env.PRODUCER_EXECUTE_ORDER_STATUS}, producer_id = ${req.session.company_id} where order_id = ${order_id};`)
+        await db.promise().query(`update orders set order_status = ${process.env.PRODUCER_EXECUTED_ORDER_STATUS}, producer_id = ${req.session.company_id} where order_id = ${order_id};`)
             .then(() => {
                 console.log(`Executed Order ${order_id} by producer`);
             })
