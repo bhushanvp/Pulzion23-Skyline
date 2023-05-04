@@ -6,9 +6,11 @@ const middleware = require("../middlewares/recycler_middleware")
 // const orders_db = require("../db/orders_conn")
 
 recycler_router.post("/recycler/register", middleware.register, async (req, res) => {
-    if (req.session.isAuth) {
-        req.session.isAuth = true
-        console.log(req.session.isAuth);
+    console.log(req.session.isAuth);
+    if (req.session.alreadyRegistered) {
+        res.render("login")
+    }
+    else if (req.session.isAuth) {
         res.redirect("/recycler/dashboard")
     }
     else {

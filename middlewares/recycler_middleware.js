@@ -3,6 +3,7 @@ const {db} = require("../db/conn")
 const {orders} = require("../db/conn")
 
 const register = async (req, res, next) => {
+    req.session.alreadyRegistered = false
     const recycler_name = req.body['company-name']
     const email = req.body['company-email']
     const salt = await bcrypt.genSalt(10)
@@ -22,6 +23,20 @@ const register = async (req, res, next) => {
 
     try {
         let company_id;
+
+        await db.promise().query(`select * from recyclers where recycler_email='${email}'`)
+        .then((data) => {
+            if (data[0].length!=0) {
+                req.session.isAuth = false
+                req.session.alreadyRegistered = true
+                console.log("Returned");
+                next()
+                return
+            }
+        })
+        .catch((err) => {
+            console.log(err);
+        })
 
         await db.promise().query(`insert into recyclers (recycler_name, recycler_email, recycler_contact_number, waste_type, password) values ('${recycler_name}', '${email}', ${contact_number}, ${waste_type}, '${password}');`)
             .then(async (data) => {
