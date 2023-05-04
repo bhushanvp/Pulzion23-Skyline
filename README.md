@@ -37,6 +37,8 @@
   + package.json
   + README.md
 
+<hr>
+
 ## Routes
 1. **App Routes**
     -  [[GET] /](#/)
@@ -61,6 +63,8 @@
     -  [[GET]  /recycler/reject/:id](#/recycler/reject/:id)
     -  [[GET]  /recycler/logout](#/recycler/logout)
     
+<hr>
+
 ## Routes Explained
 - <a name="/">**/**  [GET]</a>
    * This route uses a GET request to display the static 'Home Page'
@@ -164,6 +168,8 @@
    * Clear the cookies.
    * Redirect to the 'Login Page'.
    
+<hr>
+
 ## Middlewares
 1. **Producer Middlewares**
    - **register** <a name="producer_register"></a>
@@ -249,6 +255,8 @@
       * The recycler can reject an order by clicking on Reject button.
       * The status of order with order_id = id is set as rejected by the corresponding recycler.
       * This order is never show to that recycler again.
+
+<hr>
 
 ## Databases
 1. **MySQL**
