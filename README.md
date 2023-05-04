@@ -17,7 +17,8 @@
     - /images
       + create_order_icon.png
     - /js
-      + dashboard.js
+      + producer_dashboard.js
+      + recycler_dashboard.js
       + login.js
       + register.js
   - /templates
@@ -41,7 +42,8 @@
     -  [[GET] /](#/)
     -  [[GET] /login](#/login)
     -  [[GET] /register](#/register)
-    -  [[GET] /contact](#/contact)
+    -  [[GET] /contact](#/contact_g)
+    -  [[POST] /contact](#/contact_p)
 
 2. **Producer Routes**
     -  [[POST] /producer/login](#/producer/login)
@@ -56,6 +58,7 @@
     -  [[POST] /recycler/dashboard](#/recycler/dashboard)
     -  [[GET]  /recycler/accept](#/recycler/accept)
     -  [[GET]  /recycler/execute/:id](#/recycler/execute/:id)
+    -  [[GET]  /recycler/reject/:id](#/recycler/reject/:id)
     -  [[GET]  /recycler/logout](#/recycler/logout)
     
 ## Routes Explained
@@ -68,8 +71,11 @@
 - <a name="/register">**/register**  [GET]</a>
    * The '/register' route uses a GET request to display the static 'Registration Page'
 
-- <a name="/contact">**/contact**  [GET]</a>
-   * The '/contact' route uses a GET request to display the static 'Contact Us Page'
+- <a name="/contact_g">**/contact**  [GET]</a>
+   * The '/contact' get route uses a GET request to display the static 'Contact Us Page'
+
+- <a name="/contact_p">**/contact**  [POST]</a>
+   * The '/contact' post route uses a POST request to send an email to the company.
 
 - <a name="/producer/register">**/producer/register**  [POST]</a>
    * The '/producer/register' route handles the POST request from the 'Register Page'
@@ -104,7 +110,7 @@
 
 - <a name="/producer/order/execute/:id">**/producer/order/execute/:id**  [POST]</a>
    * This request is posted after the Producer clicks on 'Execute Order' button present on the dashboard.
-   * The order with order id = req['params'].id is executed from both the ends.
+   * The order with order id = id is executed from both the ends.
    * It has a [executeOrder](#p_executeOrder) middleware which updates the databases.
    * Then it refreshes the dashboard page.
 
@@ -243,3 +249,69 @@
       * The recycler can reject an order by clicking on Reject button.
       * The status of order with order_id = id is set as rejected by the corresponding recycler.
       * This order is never show to that recycler again.
+
+## Databases
+1. **MySQL**
+   - **Producers Table**
+      * Schema
+      
+      | Field                   | Type        | Null | Key | Default | Extra          |
+      |-------------------------|-------------|------|-----|---------|----------------|
+      | company_id              | int         | NO   | PRI | NULL    | auto_increment |
+      | producer_name           | char(30)    | YES  |     | NULL    |                |
+      | producer_email          | varchar(30) | YES  |     | NULL    |                |
+      | producer_contact_number | varchar(13) | YES  |     | NULL    |                |
+      | waste_type              | int         | YES  |     | NULL    |                |
+      | password                | char(60)    | YES  |     | NULL    |                |
+
+   - **Recyclers Table**
+      * Schema
+      
+      | Field                   | Type        | Null | Key | Default | Extra          |
+      |-------------------------|-------------|------|-----|---------|----------------|
+      | company_id              | int         | NO   | PRI | NULL    | auto_increment |
+      | recycler_name           | char(30)    | YES  |     | NULL    |                |
+      | recycler_email          | varchar(30) | YES  |     | NULL    |                |
+      | recycler_contact_number | varchar(13) | YES  |     | NULL    |                |
+      | waste_type              | int         | YES  |     | NULL    |                |
+      | password                | char(60)    | YES  |     | NULL    |                |
+
+   - **Orders Table**
+      * Schema
+      
+      | Field            | Type        | Null | Key | Default | Extra          |
+      |------------------|-------------|------|-----|---------|----------------|
+      | order_id         | int         | NO   | PRI | NULL    | auto_increment |
+      | recycler_id      | int         | YES  | MUL | NULL    |                |
+      | producer_id      | int         | YES  | MUL | NULL    |                |
+      | waste_type       | int         | YES  |     | NULL    |                |
+      | waste_quantity   | varchar(20) | YES  |     | NULL    |                |
+      | pickup_date      | datetime    | YES  |     | NULL    |                |
+      | order_status     | int         | YES  |     | NULL    |                |
+      | north_coordinate | float       | YES  |     | NULL    |                |
+      | east_coordinate  | float       | YES  |     | NULL    |                |
+
+   - **Addresses Table**
+      * Schema
+      
+      | Field            | Type        | Null | Key | Default | Extra |
+      |------------------|-------------|------|-----|---------|-------|
+      | company_id       | int         | NO   | PRI | NULL    |       |
+      | building_number  | varchar(20) | YES  |     | NULL    |       |
+      | building_name    | varchar(20) | YES  |     | NULL    |       |
+      | street_landmark  | varchar(20) | YES  |     | NULL    |       |
+      | city             | varchar(20) | YES  |     | NULL    |       |
+      | district         | varchar(20) | YES  |     | NULL    |       |
+      | pincode          | int         | YES  |     | NULL    |       |
+      | north_coordinate | float       | YES  |     | NULL    |       |
+      | east_coordinate  | float       | YES  |     | NULL    |       |
+
+2. **MongoDB**
+   - **Rejected Orders Collection**
+      * Model
+
+      | Field         | Type      |
+      |---------------|-----------|
+      | _id           | ObjectId  |
+      | order_id      | int       |
+      | building_name | int array |
