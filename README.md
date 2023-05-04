@@ -48,12 +48,14 @@
     -  [[POST] /producer/register](#/producer/register)
     -  [[POST] /producer/dashboard](#/producer/dashboard)
     -  [[POST] /producer/create-order](#/producer/create-order)
+    -  [[POST] /producer/order/execute/:id](#/producer/order/execute/:id)
     -  [[GET]  /producer/logout](#/producer/logout)
 
 3. **Recycler Routes**
     -  [[POST] /recycler/login](#/recycler/login)
     -  [[POST] /recycler/dashboard](#/recycler/dashboard)
     -  [[GET]  /recycler/accept](#/recycler/accept)
+    -  [[GET]  /recycler/execute/:id](#/recycler/execute/:id)
     -  [[GET]  /recycler/logout](#/recycler/logout)
     
 ## Routes Explained
@@ -99,7 +101,13 @@
    * Displays an interface to create an order.
    * It has a [createOrder](#createOrder) middleware which updates the databases.
    * Then it refreshes the dashboard page also displaying the order and order status.
-   
+
+- <a name="/producer/order/execute/:id">**/producer/order/execute/:id**  [POST]</a>
+   * This request is posted after the Producer clicks on 'Execute Order' button present on the dashboard.
+   * The order with order id = req['params'].id is executed from both the ends.
+   * It has a [executeOrder](#p_executeOrder) middleware which updates the databases.
+   * Then it refreshes the dashboard page.
+
 - <a name="/producer/logout">**/producer/logout**  [GET]</a>
    * Delete the session.
    * Clear the cookies.
@@ -133,6 +141,16 @@
 - <a name="/recycler/accept/:id">**/recycler/accept/:id**  [GET]</a>
    * This request facilitates the Recycler to accept the order corresponding to order_id=id.
    * It has a middlware [acceptOrder](#acceptOrder) which updates the databases.
+   * Then it refreshes the dashboard page.
+
+- <a name="/recycler/execute/:id">**/recycler/execute/:id**  [GET]</a>
+   * This request facilitates the Recycler to initialize the execution of order corresponding to order_id=id.
+   * It has a middlware [executeOrder](#r_executeOrder) which updates the databases.
+   * Then it refreshes the dashboard page.
+
+- <a name="/recycler/reject/:id">**/recycler/reject/:id**  [GET]</a>
+   * This request facilitates the Recycler to reject the order corresponding to order_id=id.
+   * It has a middlware [rejectOrder](#rejectOrder) which updates the databases.
    * Then it refreshes the dashboard page.
    
 - <a name="/recycler/logout">**/recycler/logout**  [GET]</a>
@@ -176,7 +194,13 @@
       * If no recyclers are present which satisfy the above conditions then it doesn't create any order.
       * Else it creates an order with order_status = number of available recyclers whoc satisfy the conditions.
       * Updates the order status (created/not) in the Producer's dashboard.
-      
+
+   - **executeOrder** <a name="p_executeOrder"></a>
+      * This option is visible at the pending verification section.
+      * The recycler has to initiate the execution process by clicking on the execute button.
+      * The status of order with order_id = id is set as executed by the producer.
+      * The order is then set as completely executed.
+
 2. **Recycler Middlewares**
    - **register** <a name="recycler_register"></a>
       * It takes all the information from the input fields of the 'Registration Page'.
@@ -208,3 +232,14 @@
       * It takes all the order_id from the url itself using req.params.
       * It updates the order_status in the orders table as 111.
       * It also updates the recycler_id of the same entry.
+
+   - **executeOrder** <a name="r_executeOrder"></a>
+      * The recycler has to initiate the execution process by clicking on the execute button.
+      * The status of order with order_id = id is set as executed by the recycler.
+      * This makes the order display in the pending verfication section of the producer.
+      * The order is then set as executed by the recycler.
+
+   - **rejectOrder** <a name="rejectOrder"></a>
+      * The recycler can reject an order by clicking on Reject button.
+      * The status of order with order_id = id is set as rejected by the corresponding recycler.
+      * This order is never show to that recycler again.
