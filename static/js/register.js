@@ -39,6 +39,18 @@ get_location.addEventListener("click", () => {
     })
 })
 
+const b_number = document.getElementById("building-number")
+// console.log(b_name.value);
+b_number.addEventListener("input", () => {
+    const b_number_err = document.getElementById("no-building-number")
+    if (b_number.value === "") {
+        b_number_err.textContent = "Required Building Number"
+    }
+    else {
+        b_number_err.textContent = ""
+    }
+})
+
 const b_name = document.getElementById("building-name")
 // console.log(b_name.value);
 b_name.addEventListener("input", () => {

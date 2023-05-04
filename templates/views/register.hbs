@@ -113,13 +113,14 @@
 
             <div class="subform-title">Location Details</div>
             <div class="location-form">
-
                 <div class="fields">
                     <div class="input-field">
                         <label for="building-number">Whats your building number?
-                            <span class="optional-field">(Optional)</span>
+                            <span class="required-field">*</span>
                         </label>
-                        <input type="text" name="building-number" id="building-no" placeholder="Enter building number">
+                        <input type="text" name="building-number" id="building-number" placeholder="Enter building number" required>&ensp;
+                        <span class="err" id="no-building-number"></span>
+
                     </div>
 
                     <br><br>
@@ -183,7 +184,7 @@
                     <label for="location">Give one time location for better service
                         <span class="required-field">*</span>
                     </label>
-                    <input type="button" name="location" value="Get accurate location" id="get-location">&ensp; <br>
+                    <input type="button" name="location" value="Get accurate location" id="get-location">&ensp;
                     <span class="err" id="location-not-fetched"></span>
                     <input type="text" class="coordinates" id="north-coordinate" name="north-coordinate">
                     <input type="text" class="coordinates" id="east-coordinate" name="east-coordinate">
