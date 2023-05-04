@@ -13,32 +13,43 @@
 <body>
 
     {{>header}}
-    <h1>Login</h1>
     <form id="login-form" method="post">
-        <p>Please fill the following form to login</p>
-        <label for="login-entity">What type of entity are you ?<span class="required-field">*</span></label>
-        <select name="login-entity" id="login-entity" required>
-            <option value="">Please select an option</option>
-            <option value="producer">Producer</option>
-            <option value="recycler">Recycler</option>
-        </select>
-        &ensp;<span class="err" id="no-login-entity"></span>
+        <h1>Login</h1>
+        <br>
+        <div class="fields">
 
-        <br><br>
+            <div class="input-fields">
+                <label for="login-entity">What type of entity are you ? <span class="required-field">*</span></label>
+                <select name="login-entity" id="login-entity" required>
+                    <option value="">Please select an option</option>
+                    <option value="producer">Producer</option>
+                    <option value="recycler">Recycler</option>
+                </select>
+                &ensp;<span class="err" id="no-login-entity"></span>
+            </div>
 
-        <label for="company-email">Whats your email? <span class="required-field">*</span></label>
-        <input type="email" name="company-email" id="company-email" required
-            placeholder="Enter Email Address">&ensp;<span class="err" id="no-company-email"></span>
+            <br><br>
 
-        <br><br>
 
-        <label for="password">Whats your password? <span class="required-field">*</span></label>
-        <input type="password" name="password" id="password" required placeholder="Enter your password">&ensp;<span
-            class="err" id="password-err"></span>
+            <div class="input-fields">
+                <label for="company-email">Whats your email? <span class="required-field">*</span></label>
+                <input type="email" name="company-email" id="company-email" required
+                    placeholder="Enter Email Address">&ensp;<span class="err" id="no-company-email"></span>
 
-        <br><br>
+            </div>
+            <br><br>
 
+
+            <div class="input-fields">
+                <label for="password">Whats your password? <span class="required-field">*</span></label>
+                <input type="password" name="password" id="password" required
+                    placeholder="Enter your password">&ensp;<span class="err" id="password-err"></span>
+
+            </div>
+            <br><br>
         <button type="submit">Login</button>
+        </div>
+
 
         <br>
     </form>

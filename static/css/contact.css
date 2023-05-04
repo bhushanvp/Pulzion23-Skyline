@@ -69,7 +69,7 @@ input {
 }
 
 form {
-    max-width: 700px;
+    max-width: 500px;
     margin: 50px auto 0px auto;
     padding: 20px;
     background-color: #fff;
@@ -120,4 +120,15 @@ h1 {
     font-size: 18px;
     line-height: 1.5;
     margin-bottom: 10px;
+  }
+
+  textarea {
+    font-size: 16px;
+    height: 50px;
+    width: 450px;
+    padding: 10px;
+  }
+
+  textarea ::placeholder{
+    font-size: 16px;
   }

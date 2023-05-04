@@ -85,6 +85,7 @@ const login = async (req, res, next) => {
                             req.session.north = data[0][0]['north_coordinate']
                             req.session.east = data[0][0]['east_coordinate']
                             req.session.entity = "producer"
+                            console.log(req.socket.server.connection);
                         })
                         .catch((err) => {
                             // console.log(err.message);

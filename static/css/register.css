@@ -63,7 +63,7 @@ footer p {
 }
 
 form {
-    max-width: 400px;
+    max-width: 1050px;
     margin: 60px auto 0px auto;
     padding: 20px;
     background-color: #fff;
@@ -145,65 +145,33 @@ h1 {
     margin-bottom: 10px;
   }
 
-body {
-    margin: 0;
-    padding: 0;
-}
-
-.container {
-    max-width: 960px;
-    margin: 0 auto;
+  .container form .fields {
     display: flex;
-    flex-direction: column;
     align-items: center;
-}
+    justify-content: space-between;
+    flex-wrap: wrap;
+  }
 
-.fields {
+  form .fields .input-field {
     display: flex;
+    width: calc(100%/3-15px);
     flex-direction: column;
-    align-items: center;
-}
+    margin: 4px 0;
+  }
 
-.input-fields {
+  #waste-type-container {
     display: flex;
-    flex-direction: column;
-    align-items: center;
-}
+  }
 
-input[type="email"], input[type="password"], select {
-    width: 100%;
-    padding: 12px 20px;
-    margin: 8px 0;
-    box-sizing: border-box;
-    border: none;
-    border-bottom: 2px solid #ccc;
-    background-color: #f8f8f8;
-    font-size: 16px;
-}
+  #individual-waste-type {
+    display: flex;
+  }
 
-button[type="submit"], input[type="button"] {
-    background-color: #4CAF50;
-    color: white;
-    padding: 14px 20px;
-    margin: 8px 0;
-    border: none;
-    border-radius: 4px;
-    cursor: pointer;
-    font-size: 16px;
-}
-
-button[type="submit"]:hover, input[type="button"]:hover {
-    background-color: #45a049;
-}
-
-.switch-form-container {
-    text-align: center;
-}
-
-.err {
-    color: red;
-}
-
-.required-field {
-    color: red;
+#login-form {
+    max-width: 400px;
+    margin: 60px auto 0px auto;
+    padding: 20px;
+    background-color: #fff;
+    border-radius: 5px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
 }
